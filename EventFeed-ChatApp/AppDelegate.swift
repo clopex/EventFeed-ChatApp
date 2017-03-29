@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        FIRApp.configure()
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.makeKeyAndVisible()
+        
+        window?.rootViewController = MainTabBarController()
+        
+        //color of the top bar
+        UINavigationBar.appearance().barTintColor = UIColor.rgb(red: 107, green: 144, blue: 239)
+        
+        //change color of the icons in the TabBar
+        UITabBar.appearance().tintColor = .white
+        
+        // color of the top bar title
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        
+        // white color for top bar, you must include in plist View controller-based status bar appearance with NO
+        application.statusBarStyle = .lightContent
+        
         return true
     }
 

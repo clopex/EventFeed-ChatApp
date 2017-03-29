@@ -1,0 +1,6 @@
+framework module Pods_EventFeed_ChatApp {
+  umbrella header "Pods-EventFeed-ChatApp-umbrella.h"
+
+  export *
+  module * { export * }
+}

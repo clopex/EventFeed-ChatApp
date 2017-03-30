@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import UIKit
+
+let FIREBASE_DATABASE_URL = "https://even-chatapp.firebaseio.com/"
 
 extension UserDefaults {
     

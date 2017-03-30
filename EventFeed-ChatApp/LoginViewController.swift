@@ -13,9 +13,10 @@ let cellId = "cellId"
 
 protocol LoginControllerDelegate: class {
     func userSignup()
+    func imagePicker()
 }
 
-class LoginViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, LoginControllerDelegate {
+class LoginViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, LoginControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var verticalPageControllerConstraint: NSLayoutConstraint?
     var nextButtonConstraint: NSLayoutConstraint?
@@ -181,15 +182,96 @@ class LoginViewController: UICollectionViewController, UICollectionViewDelegateF
         
         /* treba srediti ovo!!! */
         //creating second, "Follow" ViewController
-        let followAuthorController = UIViewController()
-        let secondNavigationController = UINavigationController(rootViewController: followAuthorController)
-        secondNavigationController.title = "Follow"
-        secondNavigationController.tabBarItem.image = UIImage(named: "playtabbar")
+        let usersNavigationController = UsersViewController()
+        let secondNavigationController = UINavigationController(rootViewController: usersNavigationController)
+        secondNavigationController.title = "Users"
+        secondNavigationController.tabBarItem.image = UIImage(named: "user")
         
         mainVC.viewControllers = [navigationController, secondNavigationController]
         
         UserDefaults.standard.setLogdIn(value: true)
         dismiss(animated: true, completion: nil)
     }
+    
+    func imagePicker(){
+        callAlertViewForImage()
+    }
+    
+    internal func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        var selectImg: UIImage?
+        
+        if let editImg = info[UIImagePickerControllerCropRect] as? UIImage {
+            selectImg = editImg
+        } else if let orginalImg = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            selectImg = orginalImg
+        }
+        
+        if let image = selectImg {
+            let cell = collectionView?.cellForItem(at: NSIndexPath(row: 3, section: 0) as IndexPath) as! LoginCell
+            cell.imageView.image = image
+        }
+        dismiss(animated: true, completion: nil)
+        
+        
+        
+    }
+    
+    func callAlertViewForImage() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        
+        let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source for your photo", preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action: UIAlertAction) in
+            
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                picker.sourceType = .camera
+                self.present(picker, animated: true, completion: nil)
+            } else {
+                print("No camera")
+            }
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action: UIAlertAction) in
+            picker.sourceType = .photoLibrary
+            self.present(picker, animated: true, completion: nil)
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(actionSheet, animated: true, completion: nil)
+
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

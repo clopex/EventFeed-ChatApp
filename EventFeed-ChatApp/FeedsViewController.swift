@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 let feedCellId = "cellId"
 
@@ -39,6 +40,13 @@ class FeedsViewController: UICollectionViewController, UICollectionViewDelegateF
     }
     
     func logOutFromApp() {
+        
+        do {
+            try FIRAuth.auth()?.signOut()
+        } catch let logErr {
+            print(logErr)
+        }
+        
         UserDefaults.standard.setLogdIn(value: false)
         let loginVC = LoginViewController(collectionViewLayout: UICollectionViewFlowLayout())
         present(loginVC, animated: true, completion: {

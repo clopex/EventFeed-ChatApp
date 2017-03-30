@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginCell: UICollectionViewCell {
     
@@ -58,11 +59,13 @@ class LoginCell: UICollectionViewCell {
     }
 
     
-    let imageView: UIImageView = {
+    lazy var imageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "profile")
         image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFit
+        image.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pickImageProfile)))
+        image.isUserInteractionEnabled = true
         return image
     }()
     
@@ -257,7 +260,16 @@ class LoginCell: UICollectionViewCell {
         
     }
     
+    func pickImageProfile() {
+        delegate?.imagePicker()
+    }
+    
     func loginFunctionButton() {
+        if isLoginViewOpen {
+            fireBaseLoginUser()
+            isLoginViewOpen = false
+            userSignUp()
+        } else {
             if !isLoginViewOpen {
                 removeFieldsFromSuperView()
                 bottomViewHeightConstraint?.constant = self.frame.height / 2 - 20
@@ -276,9 +288,16 @@ class LoginCell: UICollectionViewCell {
                 isReadyForLogin = false
             }
             animationLayoutIfNeeded()
+        }
+        
     }
     
     func signupFunctionButton() {
+        if isSignupViewOpen {
+            fireBaseSignUpUser()
+            isSignupViewOpen = false
+            userSignUp()
+        } else {
             if !isSignupViewOpen {
                 removeFieldsFromSuperView()
                 bottomViewHeightConstraint?.constant = self.frame.height / 2 - 20
@@ -297,6 +316,8 @@ class LoginCell: UICollectionViewCell {
                 isReadyForLogin = false
             }
             animationLayoutIfNeeded()
+        }
+        
     }
     
     func removeFieldsFromSuperView() {
@@ -310,8 +331,77 @@ class LoginCell: UICollectionViewCell {
 
     }
     
+    func fireBaseLoginUser() {
+        guard let email = emailTextField.text, let password = passwordTextField.text else {
+            print("Input data is wrong")
+            return
+        }
+        
+        FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user: FIRUser?, error) in
+            
+            if error != nil {
+                print(error!)
+            }
+        })
+    }
+    
+    func fireBaseSignUpUser() {
+        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
+            print("Input data is wrong")
+            return
+        }
+        
+        //user auth
+        
+        //create user in Firebase with email and password
+        FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user: FIRUser?, error) in
+            
+            if error != nil {
+                print(error!)
+            }
+            
+            //make reference to unique ID for every user in firebase
+            guard let uid = user?.uid else {
+                return
+            }
+
+            let uniqueImgId = NSUUID().uuidString
+            let storagefeRef = FIRStorage.storage().reference().child("profile_images").child("\(uniqueImgId).png")
+            
+            if let uploadImg = UIImagePNGRepresentation(self.imageView.image!) {
+                storagefeRef.put(uploadImg, metadata: nil, completion: { (metadata, error) in
+                    
+                    if error != nil {
+                        print(error!)
+                    }
+                    
+                    if let profileImgUrl = metadata?.downloadURL()?.absoluteString {
+                        let values = ["name": name, "email": email, "profileImageUrl": profileImgUrl]
+                        self.registerUserIntoDB(uid: uid, values: values as [String : AnyObject])
+                    }
+                })
+            }
+        })
+    }
+    
+    private func registerUserIntoDB(uid: String, values: [String: AnyObject]) {
+        
+        //put new user to database
+        let ref = FIRDatabase.database().reference(fromURL: FIREBASE_DATABASE_URL)
+        let userRef = ref.child("users").child(uid)
+//        let values = ["name": name, "email": email, "profileImageUrl":matadata.downloadUrl()]
+        userRef.updateChildValues(values, withCompletionBlock: { (err, ref) in
+            if err != nil {
+                print(err!)
+                return
+            }
+            
+            print("user saved to database")
+        })
+    }
+    
     func userSignUp() {
-        //delegate?.userSignup()
+        delegate?.userSignup()
     }
     
     func testAn() {

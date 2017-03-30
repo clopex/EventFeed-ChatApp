@@ -37,10 +37,10 @@ class MainTabBarController: UITabBarController {
         
         /* treba srediti ovo!!! */
         //creating second, "Follow" ViewController
-        let followAuthorController = UIViewController()
-        let secondNavigationController = UINavigationController(rootViewController: followAuthorController)
-        secondNavigationController.title = "Follow"
-        secondNavigationController.tabBarItem.image = UIImage(named: "playtabbar")
+        let usersNavigationController = UsersViewController()
+        let secondNavigationController = UINavigationController(rootViewController: usersNavigationController)
+        secondNavigationController.title = "Users"
+        secondNavigationController.tabBarItem.image = UIImage(named: "user")
         
         viewControllers = [navigationController, secondNavigationController]
     }

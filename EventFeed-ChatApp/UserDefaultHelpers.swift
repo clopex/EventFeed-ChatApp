@@ -26,3 +26,37 @@ extension UserDefaults {
         return bool(forKey: UserDefaultKeys.isLoggedIn.rawValue)
     }
 }
+
+
+let imageCache = NSCache<AnyObject, AnyObject>()
+
+extension UIImageView {
+    func loadImagesAndCache(url: String) {
+        
+        self.image = nil
+        
+        if let cacheImg = imageCache.object(forKey: url as AnyObject) as? UIImage {
+            self.image = cacheImg
+            return
+        }
+        
+        let url = URL(string: url)
+        URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+            
+            if error != nil {
+                print(error!)
+            }
+              
+            DispatchQueue.main.async {
+                
+                if let downloadImg = UIImage(data: data!) {
+                    imageCache.setObject(downloadImg, forKey: url as AnyObject)
+                    self.image = downloadImg
+                }
+            }
+            
+            
+        }).resume()
+
+    }
+}

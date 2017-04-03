@@ -182,10 +182,14 @@ class LoginViewController: UICollectionViewController, UICollectionViewDelegateF
         
         /* treba srediti ovo!!! */
         //creating second, "Follow" ViewController
-        let usersNavigationController = UsersViewController()
-        let secondNavigationController = UINavigationController(rootViewController: usersNavigationController)
-        secondNavigationController.title = "Users"
-        secondNavigationController.tabBarItem.image = UIImage(named: "user")
+        let messagesNavVC = MessagesViewController()
+        let secondNavigationController = UINavigationController(rootViewController: messagesNavVC)
+        secondNavigationController.title = "Inbox"
+        secondNavigationController.tabBarItem.image = UIImage(named: "inbox")
+//        let usersNavigationController = UsersViewController()
+//        let secondNavigationController = UINavigationController(rootViewController: usersNavigationController)
+//        secondNavigationController.title = "Users"
+//        secondNavigationController.tabBarItem.image = UIImage(named: "user")
         
         mainVC.viewControllers = [navigationController, secondNavigationController]
         

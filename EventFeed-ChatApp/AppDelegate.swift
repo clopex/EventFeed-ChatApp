@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = MainTabBarController()
         
         //color of the top bar
-        UINavigationBar.appearance().barTintColor = UIColor.rgb(red: 107, green: 144, blue: 239)
+        UINavigationBar.appearance().barTintColor = UIColor.rgb(red: 40, green: 83, blue: 136)
         
         //change color of the icons in the TabBar
         UITabBar.appearance().tintColor = .white

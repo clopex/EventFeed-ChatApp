@@ -13,6 +13,10 @@
 		A60DB9F61E88377F009F2823 /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60DB9F51E88377F009F2823 /* UsersViewController.swift */; };
 		A60DB9F81E8842EF009F2823 /* UserDefaultHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60DB9F71E8842EE009F2823 /* UserDefaultHelpers.swift */; };
 		A60DB9FA1E8C4E64009F2823 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60DB9F91E8C4E64009F2823 /* User.swift */; };
+		A60DB9FC1E8E9CFC009F2823 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60DB9FB1E8E9CFB009F2823 /* MessagesViewController.swift */; };
+		A60DB9FE1E8F961F009F2823 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60DB9FD1E8F961F009F2823 /* ChatViewController.swift */; };
+		A6B21C2F1E902D430034453B /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B21C2E1E902D430034453B /* Message.swift */; };
+		A6B21C311E90C62A0034453B /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B21C301E90C62A0034453B /* UserCell.swift */; };
 		A6D037441E7FC81800085244 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D037431E7FC81800085244 /* AppDelegate.swift */; };
 		A6D037461E7FC81800085244 /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D037451E7FC81800085244 /* FeedsViewController.swift */; };
 		A6D0374B1E7FC81900085244 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6D0374A1E7FC81900085244 /* Assets.xcassets */; };
@@ -60,6 +64,10 @@
 		A60DB9F51E88377F009F2823 /* UsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
 		A60DB9F71E8842EE009F2823 /* UserDefaultHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultHelpers.swift; sourceTree = "<group>"; };
 		A60DB9F91E8C4E64009F2823 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		A60DB9FB1E8E9CFB009F2823 /* MessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		A60DB9FD1E8F961F009F2823 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		A6B21C2E1E902D430034453B /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		A6B21C301E90C62A0034453B /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		A6D037401E7FC81800085244 /* EventFeed-ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EventFeed-ChatApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6D037431E7FC81800085244 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A6D037451E7FC81800085244 /* FeedsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsViewController.swift; sourceTree = "<group>"; };
@@ -184,6 +192,7 @@
 				A6D0377A1E816A3B00085244 /* Event.swift */,
 				A6D037801E81813F00085244 /* Page.swift */,
 				A60DB9F91E8C4E64009F2823 /* User.swift */,
+				A6B21C2E1E902D430034453B /* Message.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -195,6 +204,8 @@
 				A6D037781E814B7800085244 /* MainTabBarController.swift */,
 				A6D037821E81818000085244 /* LoginViewController.swift */,
 				A60DB9F51E88377F009F2823 /* UsersViewController.swift */,
+				A60DB9FB1E8E9CFB009F2823 /* MessagesViewController.swift */,
+				A60DB9FD1E8F961F009F2823 /* ChatViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -205,6 +216,7 @@
 				A6D0377C1E816AAB00085244 /* FeedsCell.swift */,
 				A6D0377E1E81811900085244 /* PageCell.swift */,
 				A6D037841E818E4100085244 /* LoginCell.swift */,
+				A6B21C301E90C62A0034453B /* UserCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -526,14 +538,18 @@
 				A6D037831E81818000085244 /* LoginViewController.swift in Sources */,
 				A6D037461E7FC81800085244 /* FeedsViewController.swift in Sources */,
 				A6D0377F1E81811900085244 /* PageCell.swift in Sources */,
+				A6B21C311E90C62A0034453B /* UserCell.swift in Sources */,
 				A60DB9F61E88377F009F2823 /* UsersViewController.swift in Sources */,
 				A6D037811E81813F00085244 /* Page.swift in Sources */,
 				A6D037771E813D4400085244 /* Extensions.swift in Sources */,
 				A60DB9F81E8842EF009F2823 /* UserDefaultHelpers.swift in Sources */,
+				A60DB9FC1E8E9CFC009F2823 /* MessagesViewController.swift in Sources */,
 				A6D037791E814B7800085244 /* MainTabBarController.swift in Sources */,
 				A6D0377D1E816AAB00085244 /* FeedsCell.swift in Sources */,
 				A6D037851E818E4100085244 /* LoginCell.swift in Sources */,
 				A6D0377B1E816A3B00085244 /* Event.swift in Sources */,
+				A6B21C2F1E902D430034453B /* Message.swift in Sources */,
+				A60DB9FE1E8F961F009F2823 /* ChatViewController.swift in Sources */,
 				A6D037441E7FC81800085244 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

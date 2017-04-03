@@ -23,7 +23,7 @@ class MainTabBarController: UITabBarController {
 
         tabBar.unselectedItemTintColor = .black
         //tabBar.backgroundColor = UIColor.rgb(red: 52, green: 73, blue: 94)
-        tabBar.barTintColor = UIColor.rgb(red: 107, green: 144, blue: 239)
+        tabBar.barTintColor = UIColor.rgb(red: 40, green: 83, blue: 136)
         tabBar.isTranslucent = false
 
     }
@@ -37,10 +37,14 @@ class MainTabBarController: UITabBarController {
         
         /* treba srediti ovo!!! */
         //creating second, "Follow" ViewController
-        let usersNavigationController = UsersViewController()
-        let secondNavigationController = UINavigationController(rootViewController: usersNavigationController)
-        secondNavigationController.title = "Users"
-        secondNavigationController.tabBarItem.image = UIImage(named: "user")
+        let messagesNavVC = MessagesViewController()
+        let secondNavigationController = UINavigationController(rootViewController: messagesNavVC)
+        secondNavigationController.title = "Inbox"
+        secondNavigationController.tabBarItem.image = UIImage(named: "inbox")
+//        let usersNavigationController = UsersViewController()
+//        let secondNavigationController = UINavigationController(rootViewController: usersNavigationController)
+//        secondNavigationController.title = "Users"
+//        secondNavigationController.tabBarItem.image = UIImage(named: "user")
         
         viewControllers = [navigationController, secondNavigationController]
     }

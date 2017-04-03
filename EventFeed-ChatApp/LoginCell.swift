@@ -366,9 +366,10 @@ class LoginCell: UICollectionViewCell {
             }
 
             let uniqueImgId = NSUUID().uuidString
-            let storagefeRef = FIRStorage.storage().reference().child("profile_images").child("\(uniqueImgId).png")
+            let storagefeRef = FIRStorage.storage().reference().child("profile_images").child("\(uniqueImgId).jpg")
             
-            if let uploadImg = UIImagePNGRepresentation(self.imageView.image!) {
+            if let profileImg = self.imageView.image, let uploadImg = UIImageJPEGRepresentation(profileImg, 0.1) {
+                
                 storagefeRef.put(uploadImg, metadata: nil, completion: { (metadata, error) in
                     
                     if error != nil {

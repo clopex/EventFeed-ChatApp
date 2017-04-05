@@ -25,10 +25,11 @@ class MessagesViewController: UITableViewController {
         self.tableView.separatorStyle = .none
         
         observerMessages()
-        tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(ChatCell.self, forCellReuseIdentifier: cellId)
     }
     
     var messages = [Message]()
+    var messagesDict = [String: Message]()
     
     func observerMessages() {
         let ref = FIRDatabase.database().reference().child("messages")
@@ -36,7 +37,15 @@ class MessagesViewController: UITableViewController {
             if let dict = snapshot.value as? [String: AnyObject] {
                 let message = Message()
                 message.setValuesForKeys(dict)
-                self.messages.append(message)
+                //self.messages.append(message)
+                
+                if let toId = message.toId {
+                    self.messagesDict[toId] = message
+                    self.messages = Array(self.messagesDict.values)
+                    self.messages.sort(by: { (msg1, msg2) -> Bool in
+                        return (msg1.timestamp?.intValue)! > (msg2.timestamp?.intValue)!
+                    })
+                }
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -53,7 +62,7 @@ class MessagesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "celld")
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! UserCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatCell
         
         let message = messages[indexPath.row]
         cell.message = message
@@ -86,7 +95,7 @@ class MessagesViewController: UITableViewController {
         }
         
         UserDefaults.standard.setLogdIn(value: false)
-        let loginVC = LoginViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let loginVC = LoginViewController()
         present(loginVC, animated: true, completion: {
             //do something!
         })

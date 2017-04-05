@@ -10,24 +10,6 @@ import Firebase
 
 class UserCell: UITableViewCell {
     
-    var message: Message? {
-        didSet {
-            if let toId = message?.toId {
-                let ref = FIRDatabase.database().reference().child("users").child(toId)
-                ref.observe(.value, with: { (snapshot) in
-                    
-                    if let dict = snapshot.value as? [String: AnyObject] {
-                        self.name.text = dict["name"] as? String
-                        
-                        if let profileImgUrl = dict["profileImageUrl"] as? String {
-                            self.profileImg.loadImagesAndCache(url: profileImgUrl)
-                        }
-                    }
-                }, withCancel: nil)
-            }
-        }
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
     }
@@ -44,6 +26,8 @@ class UserCell: UITableViewCell {
         let image = UIImageView()
         image.image = UIImage(named: "default_profile")
         image.translatesAutoresizingMaskIntoConstraints = false
+        image.layer.borderWidth = 0.8
+        image.layer.borderColor = UIColor.rgb(red: 88, green: 143, blue: 251).cgColor
         image.layer.cornerRadius = 30
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true

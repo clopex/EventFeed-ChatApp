@@ -48,7 +48,7 @@ class FeedsViewController: UICollectionViewController, UICollectionViewDelegateF
         }
         
         UserDefaults.standard.setLogdIn(value: false)
-        let loginVC = LoginViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let loginVC = LoginViewController()
         present(loginVC, animated: true, completion: {
             //do something!
         })

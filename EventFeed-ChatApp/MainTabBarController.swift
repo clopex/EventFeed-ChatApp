@@ -54,7 +54,7 @@ class MainTabBarController: UITabBarController {
     }
     
     func showLoginControllerView() {
-        let loginVC = LoginViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let loginVC = LoginViewController()
         present(loginVC, animated: true, completion: {
             //do something!
         })

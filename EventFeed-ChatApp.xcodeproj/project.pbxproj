@@ -17,6 +17,7 @@
 		A60DB9FE1E8F961F009F2823 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60DB9FD1E8F961F009F2823 /* ChatViewController.swift */; };
 		A6B21C2F1E902D430034453B /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B21C2E1E902D430034453B /* Message.swift */; };
 		A6B21C311E90C62A0034453B /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B21C301E90C62A0034453B /* UserCell.swift */; };
+		A6B491921E955C3B0049BE81 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B491911E955C3B0049BE81 /* ChatCell.swift */; };
 		A6D037441E7FC81800085244 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D037431E7FC81800085244 /* AppDelegate.swift */; };
 		A6D037461E7FC81800085244 /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D037451E7FC81800085244 /* FeedsViewController.swift */; };
 		A6D0374B1E7FC81900085244 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6D0374A1E7FC81900085244 /* Assets.xcassets */; };
@@ -68,6 +69,7 @@
 		A60DB9FD1E8F961F009F2823 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		A6B21C2E1E902D430034453B /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		A6B21C301E90C62A0034453B /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		A6B491911E955C3B0049BE81 /* ChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		A6D037401E7FC81800085244 /* EventFeed-ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EventFeed-ChatApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6D037431E7FC81800085244 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A6D037451E7FC81800085244 /* FeedsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsViewController.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				A6D0377E1E81811900085244 /* PageCell.swift */,
 				A6D037841E818E4100085244 /* LoginCell.swift */,
 				A6B21C301E90C62A0034453B /* UserCell.swift */,
+				A6B491911E955C3B0049BE81 /* ChatCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -545,6 +548,7 @@
 				A60DB9F81E8842EF009F2823 /* UserDefaultHelpers.swift in Sources */,
 				A60DB9FC1E8E9CFC009F2823 /* MessagesViewController.swift in Sources */,
 				A6D037791E814B7800085244 /* MainTabBarController.swift in Sources */,
+				A6B491921E955C3B0049BE81 /* ChatCell.swift in Sources */,
 				A6D0377D1E816AAB00085244 /* FeedsCell.swift in Sources */,
 				A6D037851E818E4100085244 /* LoginCell.swift in Sources */,
 				A6D0377B1E816A3B00085244 /* Event.swift in Sources */,

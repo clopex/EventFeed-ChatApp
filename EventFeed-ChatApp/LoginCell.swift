@@ -11,6 +11,9 @@ import Firebase
 
 class LoginCell: UICollectionViewCell {
     
+    //reference to the FeedController
+    var loginVC: LoginViewController?
+    
     var verticalPageControllerConstraint: NSLayoutConstraint?
     var bottomViewHeightConstraint: NSLayoutConstraint?
     var signUpConstraint: NSLayoutConstraint?
@@ -267,8 +270,6 @@ class LoginCell: UICollectionViewCell {
     func loginFunctionButton() {
         if isLoginViewOpen {
             fireBaseLoginUser()
-            isLoginViewOpen = false
-            userSignUp()
         } else {
             if !isLoginViewOpen {
                 removeFieldsFromSuperView()
@@ -295,8 +296,6 @@ class LoginCell: UICollectionViewCell {
     func signupFunctionButton() {
         if isSignupViewOpen {
             fireBaseSignUpUser()
-            isSignupViewOpen = false
-            userSignUp()
         } else {
             if !isSignupViewOpen {
                 removeFieldsFromSuperView()
@@ -331,6 +330,18 @@ class LoginCell: UICollectionViewCell {
 
     }
     
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default)
+        {
+            (result : UIAlertAction) -> Void in
+            print("You pressed OK")
+        }
+        alertController.addAction(okAction)
+        loginVC?.present(alertController, animated: true, completion: nil)
+    }
+    
     func fireBaseLoginUser() {
         guard let email = emailTextField.text, let password = passwordTextField.text else {
             print("Input data is wrong")
@@ -340,7 +351,11 @@ class LoginCell: UICollectionViewCell {
         FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user: FIRUser?, error) in
             
             if error != nil {
-                print(error!)
+                self.showAlert(title: "Bad Login", message: (error?.localizedDescription)!)
+                //print(error!)
+            } else {
+                self.isLoginViewOpen = false
+                self.userSignUp()
             }
         })
     }
@@ -357,38 +372,45 @@ class LoginCell: UICollectionViewCell {
         FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user: FIRUser?, error) in
             
             if error != nil {
+                self.showAlert(title: "Bad Signup", message: (error?.localizedDescription)!)
                 print(error!)
-            }
-            
-            //make reference to unique ID for every user in firebase
-            guard let uid = user?.uid else {
-                return
-            }
-
-            let uniqueImgId = NSUUID().uuidString
-            let storagefeRef = FIRStorage.storage().reference().child("profile_images").child("\(uniqueImgId).jpg")
-            
-            if let profileImg = self.imageView.image, let uploadImg = UIImageJPEGRepresentation(profileImg, 0.1) {
+            } else {
+                //make reference to unique ID for every user in firebase
+                guard let uid = user?.uid else {
+                    return
+                }
                 
-                storagefeRef.put(uploadImg, metadata: nil, completion: { (metadata, error) in
+                let uniqueImgId = NSUUID().uuidString
+                let storagefeRef = FIRStorage.storage().reference().child("profile_images").child("\(uniqueImgId).jpg")
+                
+                if let profileImg = self.imageView.image, let uploadImg = UIImageJPEGRepresentation(profileImg, 0.1) {
                     
-                    if error != nil {
-                        print(error!)
-                    }
-                    
-                    if let profileImgUrl = metadata?.downloadURL()?.absoluteString {
-                        let values = ["name": name, "email": email, "profileImageUrl": profileImgUrl]
-                        self.registerUserIntoDB(uid: uid, values: values as [String : AnyObject])
-                    }
-                })
+                    storagefeRef.put(uploadImg, metadata: nil, completion: { (metadata, error) in
+                        
+                        if error != nil {
+                            print(error!)
+                        }
+                        
+                        if let profileImgUrl = metadata?.downloadURL()?.absoluteString {
+                            let values = ["name": name, "email": email, "profileImageUrl": profileImgUrl]
+                            self.registerUserIntoDB(uid: uid, values: values as [String : AnyObject])
+                        }
+                    })
+                }
+                
+                self.isSignupViewOpen = false
+                self.userSignUp()
+                
             }
+            
+            
         })
     }
     
     private func registerUserIntoDB(uid: String, values: [String: AnyObject]) {
         
         //put new user to database
-        let ref = FIRDatabase.database().reference(fromURL: FIREBASE_DATABASE_URL)
+        let ref = FIRDatabase.database().reference()
         let userRef = ref.child("users").child(uid)
 //        let values = ["name": name, "email": email, "profileImageUrl":matadata.downloadUrl()]
         userRef.updateChildValues(values, withCompletionBlock: { (err, ref) in
@@ -405,8 +427,10 @@ class LoginCell: UICollectionViewCell {
         delegate?.userSignup()
     }
     
-    func testAn() {
-        //bottomViewHeightConstraint?.constant = 50
+    func resetConstraintsForViews() {
+        removeFieldsFromSuperView()
+        resetSignUpConstraints(loginConstant: 0, signUpConstant: 20)
+        bottomViewHeightConstraint?.constant = 60
         animationLayoutIfNeeded()
         
     }

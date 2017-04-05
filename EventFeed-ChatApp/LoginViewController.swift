@@ -16,28 +16,38 @@ protocol LoginControllerDelegate: class {
     func imagePicker()
 }
 
-class LoginViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, LoginControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class LoginViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LoginControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+    
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.backgroundColor = .white
+        cv.dataSource = self
+        cv.delegate = self
+        cv.isPagingEnabled = true
+        return cv
+    }()
+
     
     var verticalPageControllerConstraint: NSLayoutConstraint?
     var nextButtonConstraint: NSLayoutConstraint?
     var skipButtonConstraint: NSLayoutConstraint?
     
-    var testV = LoginCell()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         registerCells()
-        collectionView?.isPagingEnabled = true
-        if let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = .horizontal
-            layout.minimumLineSpacing = 0
-        }
-        collectionView?.backgroundColor = .white
-        collectionView?.showsHorizontalScrollIndicator = false
+        
+        observeKeyboard()
+        collectionView.keyboardDismissMode = .onDrag
+        view.addSubview(collectionView)
         view.addSubview(pageControl)
         view.addSubview(skipBtn)
         view.addSubview(nextBtn)
+        
+        collectionView.anchorToTop(view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
         
         view.addConstraintWithFormat(format: "H:|[v0]|", views: pageControl)
         verticalPageControllerConstraint = NSLayoutConstraint(item: pageControl, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
@@ -55,9 +65,28 @@ class LoginViewController: UICollectionViewController, UICollectionViewDelegateF
         view.addConstraints([verticalPageControllerConstraint!, nextButtonConstraint!, skipButtonConstraint!])
     }
     
+    fileprivate func observeKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide), name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    func keyboardHide() {
+        animateKeyboard(y: 0)
+    }
+    
+    func keyboardShow() {
+        animateKeyboard(y: -120)
+    }
+    
+    func animateKeyboard(y: CGFloat) {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: { 
+            self.view.frame = CGRect(x: 0, y: y, width: self.view.frame.width, height: self.view.frame.height)
+        }, completion: nil)
+    }
+    
     fileprivate func registerCells() {
-        collectionView?.register(PageCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView?.register(LoginCell.self, forCellWithReuseIdentifier: lastCellId)
+        collectionView.register(PageCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(LoginCell.self, forCellWithReuseIdentifier: lastCellId)
     }
     
     let pages: [Page] = {
@@ -112,11 +141,11 @@ class LoginViewController: UICollectionViewController, UICollectionViewDelegateF
             }, completion: nil)
         }
         let indexPath = IndexPath(item: pageControl.currentPage + 1, section: 0)
-        collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         pageControl.currentPage += 1
     }
     
-    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let pageNumber = Int(targetContentOffset.pointee.x / view.frame.width)
         pageControl.currentPage = pageNumber
         if pageNumber == pages.count {
@@ -131,6 +160,10 @@ class LoginViewController: UICollectionViewController, UICollectionViewDelegateF
         }, completion: nil)
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        view.endEditing(true)
+    }
+    
     fileprivate func animateConstants() {
         self.verticalPageControllerConstraint?.constant = 50
         self.nextButtonConstraint?.constant = -30
@@ -142,26 +175,34 @@ class LoginViewController: UICollectionViewController, UICollectionViewDelegateF
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        collectionView?.collectionViewLayout.invalidateLayout()
+        collectionView.collectionViewLayout.invalidateLayout()
         let indexPath = IndexPath(item: pageControl.currentPage, section: 0)
         DispatchQueue.main.async {
-            self.collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            self.collectionView?.reloadData()
+            self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            self.collectionView.reloadData()
         }
-        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
     }
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return pages.count + 1
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {        
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if indexPath.item == pages.count {
             let lastCell = collectionView.dequeueReusableCell(withReuseIdentifier: lastCellId, for: indexPath) as! LoginCell
+            lastCell.passwordTextField.delegate = self
+            lastCell.emailTextField.delegate = self
+            lastCell.nameTextField.delegate = self
             lastCell.delegate = self
-            lastCell.testAn()
+            lastCell.loginVC = self
+            lastCell.resetConstraintsForViews()
             return lastCell
         }
         
@@ -212,7 +253,7 @@ class LoginViewController: UICollectionViewController, UICollectionViewDelegateF
         }
         
         if let image = selectImg {
-            let cell = collectionView?.cellForItem(at: NSIndexPath(row: 3, section: 0) as IndexPath) as! LoginCell
+            let cell = collectionView.cellForItem(at: NSIndexPath(row: 3, section: 0) as IndexPath) as! LoginCell
             cell.imageView.image = image
         }
         dismiss(animated: true, completion: nil)

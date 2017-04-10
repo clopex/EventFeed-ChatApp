@@ -22,6 +22,34 @@ extension UIButton{
     }
 }
 
+extension Date {
+    
+    func timeAgoShow() -> String {
+        
+        let secondsAgo = Int(Date().timeIntervalSince(self))
+        
+        let minute = 60
+        let hour = 60 * minute
+        let day = 24 * hour
+        let week = 7 * day
+        let month = 4 * week
+        
+        if secondsAgo < minute {
+            return "\(secondsAgo) s ago"
+        } else if secondsAgo < hour {
+            return "\(secondsAgo) m ago"
+        } else if secondsAgo < day {
+            return "\(secondsAgo) h ago"
+        } else if secondsAgo < week {
+            return "\(secondsAgo) d ago"
+        } else if secondsAgo < month {
+            return "\(secondsAgo) w ago"
+        }
+        
+        return "\(secondsAgo) month ago"
+    }
+}
+
 extension UIView {
     
     func addConstraintWithFormat(format: String, views: UIView...) {

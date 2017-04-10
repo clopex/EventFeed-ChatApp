@@ -211,6 +211,7 @@ class FeedsCell: UICollectionViewCell {
         let textView = UITextView()
         textView.text = "Some of the text in the text view"
         textView.isScrollEnabled = false
+        textView.isEditable = false
         textView.font = UIFont.systemFont(ofSize: 14)
         return textView
     }()

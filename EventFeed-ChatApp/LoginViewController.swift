@@ -246,7 +246,7 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         var selectImg: UIImage?
         
-        if let editImg = info[UIImagePickerControllerCropRect] as? UIImage {
+        if let editImg = info[UIImagePickerControllerEditedImage] as? UIImage {
             selectImg = editImg
         } else if let orginalImg = info[UIImagePickerControllerOriginalImage] as? UIImage {
             selectImg = orginalImg
@@ -257,9 +257,6 @@ class LoginViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.imageView.image = image
         }
         dismiss(animated: true, completion: nil)
-        
-        
-        
     }
     
     func callAlertViewForImage() {

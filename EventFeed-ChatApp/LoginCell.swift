@@ -428,6 +428,8 @@ class LoginCell: UICollectionViewCell {
     }
     
     func resetConstraintsForViews() {
+        isLoginViewOpen = false
+        isSignupViewOpen = false
         removeFieldsFromSuperView()
         resetSignUpConstraints(loginConstant: 0, signUpConstant: 20)
         bottomViewHeightConstraint?.constant = 60

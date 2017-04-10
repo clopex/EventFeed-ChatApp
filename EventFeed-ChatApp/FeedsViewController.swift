@@ -22,6 +22,7 @@ class FeedsViewController: UICollectionViewController, UICollectionViewDelegateF
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage.init(named: "logout"), style: .plain, target: self, action: #selector(logOutFromApp)) //UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logOutFromApp))
         navigationItem.leftBarButtonItem?.tintColor = .white
+        
         //Another way for creating cache for images and access them
         let capacity = 500 * 1024 * 1024
         let cacheForUrls = URLCache(memoryCapacity: capacity, diskCapacity: capacity, diskPath: "randomName")

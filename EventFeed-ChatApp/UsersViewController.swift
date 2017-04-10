@@ -38,7 +38,7 @@ class UsersViewController: UITableViewController {
             
             if let dict = snapshot.value as? [String: AnyObject] {
                 let user = User()
-                user.toId = snapshot.key
+                user.id = snapshot.key
                 
                 //values must be the same name as on firebase aka name==name etc
                 user.setValuesForKeys(dict)
@@ -61,7 +61,7 @@ class UsersViewController: UITableViewController {
         cell.name.text = user.name
         
         if let profileImgUrl = user.profileImageUrl {
-            cell.profileImg.loadImagesAndCache(url: profileImgUrl)
+            cell.profileImg.loadImagesAndCache(profileImgUrl)
         }
         
         return cell

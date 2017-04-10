@@ -28,14 +28,15 @@ extension UserDefaults {
 }
 
 
-let imageCache = NSCache<AnyObject, AnyObject>()
+let imageCache = NSCache<AnyObject, UIImage>()
 
 extension UIImageView {
-    func loadImagesAndCache(url: String) {
+    
+    func loadImagesAndCache(_ url: String) {
         
         self.image = nil
         
-        if let cacheImg = imageCache.object(forKey: url as AnyObject) as? UIImage {
+        if let cacheImg = imageCache.object(forKey: url as NSString) {
             self.image = cacheImg
             return
         }
@@ -46,16 +47,15 @@ extension UIImageView {
             if error != nil {
                 print(error!)
             }
-              
-            DispatchQueue.main.async {
-                
+            
+            DispatchQueue.main.async(execute: { 
                 if let downloadImg = UIImage(data: data!) {
                     imageCache.setObject(downloadImg, forKey: url as AnyObject)
                     self.image = downloadImg
                 }
-            }
+            })
             
-            
+
         }).resume()
 
     }

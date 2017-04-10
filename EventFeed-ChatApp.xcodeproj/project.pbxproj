@@ -32,6 +32,7 @@
 		A6D037811E81813F00085244 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D037801E81813F00085244 /* Page.swift */; };
 		A6D037831E81818000085244 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D037821E81818000085244 /* LoginViewController.swift */; };
 		A6D037851E818E4100085244 /* LoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D037841E818E4100085244 /* LoginCell.swift */; };
+		A6DE37F71E975B5700901B50 /* ChatLogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6DE37F61E975B5700901B50 /* ChatLogCell.swift */; };
 		E1A24C576A41A9E050483837 /* Pods_EventFeed_ChatAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D273AA6019DABA73FC7B991 /* Pods_EventFeed_ChatAppTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -90,6 +91,7 @@
 		A6D037801E81813F00085244 /* Page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		A6D037821E81818000085244 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A6D037841E818E4100085244 /* LoginCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCell.swift; sourceTree = "<group>"; };
+		A6DE37F61E975B5700901B50 /* ChatLogCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogCell.swift; sourceTree = "<group>"; };
 		EFCACDCBBBCB13BF878B3D73 /* Pods-EventFeed-ChatAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EventFeed-ChatAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EventFeed-ChatAppUITests/Pods-EventFeed-ChatAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -220,6 +222,7 @@
 				A6D037841E818E4100085244 /* LoginCell.swift */,
 				A6B21C301E90C62A0034453B /* UserCell.swift */,
 				A6B491911E955C3B0049BE81 /* ChatCell.swift */,
+				A6DE37F61E975B5700901B50 /* ChatLogCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 				A6D037791E814B7800085244 /* MainTabBarController.swift in Sources */,
 				A6B491921E955C3B0049BE81 /* ChatCell.swift in Sources */,
 				A6D0377D1E816AAB00085244 /* FeedsCell.swift in Sources */,
+				A6DE37F71E975B5700901B50 /* ChatLogCell.swift in Sources */,
 				A6D037851E818E4100085244 /* LoginCell.swift in Sources */,
 				A6D0377B1E816A3B00085244 /* Event.swift in Sources */,
 				A6B21C2F1E902D430034453B /* Message.swift in Sources */,
